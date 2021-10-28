@@ -34,7 +34,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_anime_search() {
-        let client = crate::Client::new("EFtn1jRe8KdY174GBkGRM0RGHBh23gvI", "Seoyne").unwrap();
+        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), "Seoyne").unwrap();
 
         let dto = client.search_anime("sword art online").await.unwrap();
 
