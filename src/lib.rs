@@ -43,7 +43,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_status() {
-        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), "Seoyne").unwrap();
+        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), &std::env::var("AB_USER").unwrap()).unwrap();
 
         let dto = client.status().await.unwrap();
 
@@ -52,7 +52,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_stats() {
-        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), "Seoyne").unwrap();
+        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), &std::env::var("AB_USER").unwrap()).unwrap();
 
         let dto = client.stats().await.unwrap();
 
