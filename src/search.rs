@@ -8,7 +8,9 @@ use crate::{errors, errors::Error, Client};
 #[async_trait]
 pub trait Search {
     async fn search_anime(&self, search: &str) -> Result<SearchResult, Error>;
-    async fn search_music(&self, search: &str) -> Result<SearchResult, Error>;
+
+    // TODO: Add music search
+    // async fn search_music(&self, search: &str) -> Result<SearchResult, Error>;
 }
 
 #[async_trait]
@@ -22,7 +24,9 @@ impl Search for Client {
         .await
     }
 
-    async fn search_music(&self, search: &str) -> Result<SearchResult, Error> { todo!() }
+    // TODO: Add music search
+    // async fn search_music(&self, search: &str) -> Result<SearchResult, Error> {
+    // todo!() }
 }
 
 #[derive(Debug, Serialize, Deserialize)]

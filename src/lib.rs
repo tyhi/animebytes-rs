@@ -1,5 +1,5 @@
 #![warn(clippy::all, clippy::pedantic, clippy::nursery, clippy::perf)]
-#![allow(clippy::module_name_repetitions)]
+#![allow(clippy::module_name_repetitions, clippy::no_effect_underscore_binding)]
 use serde::de::DeserializeOwned;
 
 mod errors;
