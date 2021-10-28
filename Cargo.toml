@@ -2,6 +2,10 @@
 name = "animebytes-rs"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+repository = "https://github.com/tyhi/animebytes-rs"
+description = "An api client for accessing AnimeBytes.tv tracker api"
+homepage = "https://github.com/tyhi/animebytes-rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
