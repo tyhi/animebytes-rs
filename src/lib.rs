@@ -30,7 +30,7 @@ impl Client {
 
 #[cfg(test)]
 mod tests {
-    use crate::{search::Search, stats::Stats};
+    use crate::{search::Search, stats::Stats, status::Status};
 
     #[tokio::test]
     async fn test_anime_search() {
@@ -43,6 +43,15 @@ mod tests {
 
     #[tokio::test]
     async fn test_status() {
+        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), "Seoyne").unwrap();
+
+        let dto = client.status().await.unwrap();
+
+        assert!(dto.success);
+    }
+
+    #[tokio::test]
+    async fn test_stats() {
         let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), "Seoyne").unwrap();
 
         let dto = client.stats().await.unwrap();
