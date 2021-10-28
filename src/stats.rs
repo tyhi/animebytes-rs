@@ -10,6 +10,7 @@ pub trait Stats {
 
 #[async_trait]
 impl Stats for Client {
+    /// Returns basic information about the tracker, auth required.
     async fn stats(&self) -> Result<StatsDTO, Error> {
         self.get(&format!("https://animebytes.tv/api/stats/{}", self.torrent_pass))
             .await

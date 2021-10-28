@@ -13,6 +13,7 @@ pub trait Search {
 
 #[async_trait]
 impl Search for Client {
+    /// Searches for anime with a given search string.
     async fn search_anime(&self, search: &str) -> Result<SearchResult, errors::Error> {
         self.get(&format!(
             "https://animebytes.tv/scrape.php?torrent_pass={}&username={}&type=anime&searchstr={}",

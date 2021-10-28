@@ -10,6 +10,7 @@ pub trait Status {
 
 #[async_trait]
 impl Status for Client {
+    /// Returns the operation status of the tracker, no auth required.
     async fn status(&self) -> Result<StatusDTO, Error> { self.get("https://status.animebytes.tv/api/status").await }
 }
 
