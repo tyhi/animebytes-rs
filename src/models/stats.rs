@@ -1,17 +1,23 @@
-use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 
 use crate::{errors::Error, Client};
 
-#[async_trait]
-pub trait Stats {
-    async fn stats(&self) -> Result<StatsDTO, Error>;
-}
-
-#[async_trait]
-impl Stats for Client {
+impl Client {
     /// Returns basic information about the tracker, auth required.
-    async fn stats(&self) -> Result<StatsDTO, Error> {
+    /// ```rust
+    /// # async fn run() -> Result<(), animebytes_rs::errors::Error> {
+    /// let client = animebytes_rs::Client::new("password", "username")?;
+    ///
+    /// let search_result = client.stats().await?;
+    ///
+    /// println!("{:?}", search_result);
+    /// Ok(())
+    /// # }
+    /// ```
+    /// # Errors
+    /// This method can fail if the torrent password is invalid or if there is a
+    /// general http error.
+    pub async fn stats(&self) -> Result<StatsDTO, Error> {
         self.get(&format!("https://animebytes.tv/api/stats/{}", self.torrent_pass))
             .await
     }

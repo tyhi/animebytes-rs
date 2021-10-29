@@ -1,11 +1,16 @@
+//! # animebytes-rs
+//!
+//! `animebytes-rs` is a crate that provides access to animebytes-tv tracker
+//! api. You need to provide your torrent password to access most of the
+//! endpoints. Prometheus endpoints are not provided however in the future there
+//! is a chance that they could be added if requested.
+
 #![warn(clippy::all, clippy::pedantic, clippy::nursery, clippy::perf)]
 #![allow(clippy::module_name_repetitions, clippy::no_effect_underscore_binding)]
 use serde::de::DeserializeOwned;
 
-mod errors;
-mod search;
-mod stats;
-mod status;
+pub mod errors;
+pub mod models;
 
 pub struct Client {
     torrent_pass: String,
@@ -14,7 +19,11 @@ pub struct Client {
 }
 
 impl Client {
+    /// Create a new `Client`, providing a torrent password, and username.
+    /// Current checking if credentials are valid is not done on client
+    /// creation.
     /// # Errors
+    /// This method fails if the http client backend could not be created.
     pub fn new(torrent_pass: &str, username: &str) -> Result<Self, errors::Error> {
         Ok(Self {
             torrent_pass: torrent_pass.into(),
@@ -30,11 +39,9 @@ impl Client {
 
 #[cfg(test)]
 mod tests {
-    use crate::{search::Search, stats::Stats, status::Status};
-
     #[tokio::test]
     async fn test_anime_search() {
-        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), "Seoyne").unwrap();
+        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), &std::env::var("AB_USER").unwrap()).unwrap();
 
         let dto = client.search_anime("sword art online").await.unwrap();
 
@@ -43,7 +50,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_status() {
-        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), "Seoyne").unwrap();
+        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), &std::env::var("AB_USER").unwrap()).unwrap();
 
         let dto = client.status().await.unwrap();
 
@@ -52,7 +59,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_stats() {
-        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), "Seoyne").unwrap();
+        let client = crate::Client::new(&std::env::var("AB_KEY").unwrap(), &std::env::var("AB_USER").unwrap()).unwrap();
 
         let dto = client.stats().await.unwrap();
 
