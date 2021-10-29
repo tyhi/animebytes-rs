@@ -1,17 +1,22 @@
-use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 
 use crate::{errors::Error, Client};
 
-#[async_trait]
-pub trait Status {
-    async fn status(&self) -> Result<StatusDTO, Error>;
-}
-
-#[async_trait]
-impl Status for Client {
-    /// Returns the operation status of the tracker, no auth required.
-    async fn status(&self) -> Result<StatusDTO, Error> { self.get("https://status.animebytes.tv/api/status").await }
+impl Client {
+    /// Returns basic information about the tracker, auth required.
+    /// ```rust
+    /// # async fn run() -> Result<(), animebytes_rs::errors::Error> {
+    /// let client = animebytes_rs::Client::new("password", "username")?;
+    ///
+    /// let search_result = client.status().await?;
+    ///
+    /// println!("{:?}", search_result);
+    /// Ok(())
+    /// # }
+    /// ```
+    /// # Errors
+    /// This method can fail if there is a general HTTP error.
+    pub async fn status(&self) -> Result<StatusDTO, Error> { self.get("https://status.animebytes.tv/api/status").await }
 }
 
 #[derive(Debug, Serialize, Deserialize)]

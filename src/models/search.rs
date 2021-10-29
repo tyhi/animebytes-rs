@@ -1,36 +1,36 @@
 use std::collections::HashMap;
 
-use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 
-use crate::{errors, errors::Error, Client};
+use crate::{errors, Client};
 
-#[async_trait]
-pub trait Search {
-    async fn search_anime(&self, search: &str) -> Result<SearchResult, Error>;
-
-    // TODO: Add music search
-    // async fn search_music(&self, search: &str) -> Result<SearchResult, Error>;
-}
-
-#[async_trait]
-impl Search for Client {
+impl Client {
     /// Searches for anime with a given search string.
-    async fn search_anime(&self, search: &str) -> Result<SearchResult, errors::Error> {
+    /// # Example
+    /// ```rust
+    /// # async fn run() -> Result<(), animebytes_rs::errors::Error> {
+    /// let client = animebytes_rs::Client::new("password", "username")?;
+    ///
+    /// let search_result = client.search_anime("hyouka").await?;
+    ///
+    /// println!("{:?}", search_result);
+    /// Ok(())
+    /// # }
+    /// ```
+    /// # Errors
+    /// This method will fail if there's any issue with username, password or if
+    /// there's an HTTP error.
+    pub async fn search_anime(&self, search: &str) -> Result<SearchDTO, errors::Error> {
         self.get(&format!(
             "https://animebytes.tv/scrape.php?torrent_pass={}&username={}&type=anime&searchstr={}",
             self.torrent_pass, self.username, search
         ))
         .await
     }
-
-    // TODO: Add music search
-    // async fn search_music(&self, search: &str) -> Result<SearchResult, Error> {
-    // todo!() }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct SearchResult {
+pub struct SearchDTO {
     #[serde(rename = "Matches")]
     pub matches: i64,
     #[serde(rename = "Limit")]
